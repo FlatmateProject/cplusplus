@@ -1,0 +1,951 @@
+State 0:
+          main ::= * command_list
+          command_list ::= * command_list command
+      (2) command_list ::= *
+
+                          main accept
+                  command_list shift  1
+                     {default} reduce 2
+
+State 1:
+      (0) main ::= command_list *
+          command_list ::= command_list * command
+          command ::= * openORcreate GDB STRING INTO STRING
+          openORcreate ::= * OPEN
+          openORcreate ::= * CREATE
+          command ::= * CREATE NODE STRING attributedef_list
+          command ::= * restrictedEdge STRING TO STRING attributedef_list materialize_neighbors
+          command ::= * directedORundirectedEdge attributedef_list materialize_neighbors
+          restrictedEdge ::= * CREATE EDGE STRING FROM
+          restrictedEdge ::= * CREATE DIRECTED EDGE STRING FROM
+          directedORundirectedEdge ::= * CREATE EDGE STRING
+          directedORundirectedEdge ::= * CREATE DIRECTED EDGE STRING
+          directedORundirectedEdge ::= * CREATE UNDIRECTED EDGE STRING
+          command ::= * DROP nodeORedge STRING
+          command ::= * DROP ATTRIBUTE STRING DOT STRING
+          command ::= * INDEX STRING DOT STRING index_kind
+          command ::= * LOAD nodesORedges STRING localeORnolocale COLUMNS columndef_list INTO STRING ignore where fields from max mode
+          command ::= * SET TIMESTAMP FORMAT STRING
+
+                             $ reduce 0
+                          OPEN shift  87
+                        CREATE shift  26
+                          DROP shift  6
+                         INDEX shift  50
+                          LOAD shift  8
+                           SET shift  82
+                  openORcreate shift  30
+      directedORundirectedEdge shift  14
+                restrictedEdge shift  42
+                       command shift  85
+
+State 2:
+          command ::= LOAD nodesORedges STRING localeORnolocale COLUMNS * columndef_list INTO STRING ignore where fields from max mode
+          columndef_list ::= * columndef_list COMMA columndef
+     (45) columndef_list ::= *
+          columndef_list ::= * columndef
+          columndef ::= * ASTERISK
+          columndef ::= * STRING
+          columndef ::= * STRING STRING
+
+                        STRING shift  80
+                      ASTERISK shift  127
+                columndef_list shift  28
+                     columndef shift  129
+                     {default} reduce 45
+
+State 3:
+          attributedef_list ::= PAREN_OPEN * attributedef_list_nopar PAREN_CLOSE
+          attributedef_list_nopar ::= * attributedef_list_nopar COMMA attributedef
+          attributedef_list_nopar ::= * attributedef
+     (11) attributedef_list_nopar ::= *
+          attributedef ::= * STRING datatype index_kind
+
+                        STRING shift  4
+                  attributedef shift  103
+       attributedef_list_nopar shift  27
+                     {default} reduce 11
+
+State 4:
+          attributedef ::= STRING * datatype index_kind
+          datatype ::= * BOOLEAN
+          datatype ::= * INTEGER
+          datatype ::= * LONG
+          datatype ::= * DOUBLE
+          datatype ::= * OID
+          datatype ::= * TIMESTAMP
+          datatype ::= * TEXT
+          datatype ::= * STRING
+
+                        STRING shift  102
+                       BOOLEAN shift  95
+                       INTEGER shift  96
+                          LONG shift  97
+                        DOUBLE shift  98
+                           OID shift  99
+                     TIMESTAMP shift  100
+                          TEXT shift  101
+                      datatype shift  5
+
+State 5:
+          attributedef ::= STRING datatype * index_kind
+     (21) index_kind ::= *
+          index_kind ::= * BASIC
+          index_kind ::= * INDEXED
+          index_kind ::= * UNIQUE
+
+                         BASIC shift  92
+                       INDEXED shift  93
+                        UNIQUE shift  94
+                    index_kind shift  91
+                     {default} reduce 21
+
+State 6:
+          command ::= DROP * nodeORedge STRING
+          nodeORedge ::= * NODE
+          nodeORedge ::= * EDGE
+          command ::= DROP * ATTRIBUTE STRING DOT STRING
+
+                          NODE shift  111
+                          EDGE shift  112
+                     ATTRIBUTE shift  47
+                    nodeORedge shift  46
+
+State 7:
+     (21) index_kind ::= *
+          index_kind ::= * BASIC
+          index_kind ::= * INDEXED
+          index_kind ::= * UNIQUE
+          command ::= INDEX STRING DOT STRING * index_kind
+
+                         BASIC shift  92
+                       INDEXED shift  93
+                        UNIQUE shift  94
+                    index_kind shift  114
+                     {default} reduce 21
+
+State 8:
+          command ::= LOAD * nodesORedges STRING localeORnolocale COLUMNS columndef_list INTO STRING ignore where fields from max mode
+          nodesORedges ::= * NODES
+          nodesORedges ::= * EDGES
+
+                         NODES shift  131
+                         EDGES shift  132
+                  nodesORedges shift  53
+
+State 9:
+          columndef_list ::= columndef_list COMMA * columndef
+          columndef ::= * ASTERISK
+          columndef ::= * STRING
+          columndef ::= * STRING STRING
+
+                        STRING shift  80
+                      ASTERISK shift  127
+                     columndef shift  126
+
+State 10:
+          command ::= CREATE NODE STRING * attributedef_list
+      (7) attributedef_list ::= *
+          attributedef_list ::= * PAREN_OPEN attributedef_list_nopar PAREN_CLOSE
+
+                    PAREN_OPEN shift  3
+             attributedef_list shift  88
+                     {default} reduce 7
+
+State 11:
+          attributedef_list_nopar ::= attributedef_list_nopar COMMA * attributedef
+          attributedef ::= * STRING datatype index_kind
+
+                        STRING shift  4
+                  attributedef shift  90
+
+State 12:
+      (7) attributedef_list ::= *
+          attributedef_list ::= * PAREN_OPEN attributedef_list_nopar PAREN_CLOSE
+          command ::= restrictedEdge STRING TO STRING * attributedef_list materialize_neighbors
+
+                    PAREN_OPEN shift  3
+             attributedef_list shift  13
+                     {default} reduce 7
+
+State 13:
+          command ::= restrictedEdge STRING TO STRING attributedef_list * materialize_neighbors
+     (27) materialize_neighbors ::= *
+          materialize_neighbors ::= * MATERIALIZE NEIGHBORS
+
+                   MATERIALIZE shift  45
+         materialize_neighbors shift  107
+                     {default} reduce 27
+
+State 14:
+      (7) attributedef_list ::= *
+          attributedef_list ::= * PAREN_OPEN attributedef_list_nopar PAREN_CLOSE
+          command ::= directedORundirectedEdge * attributedef_list materialize_neighbors
+
+                    PAREN_OPEN shift  3
+             attributedef_list shift  15
+                     {default} reduce 7
+
+State 15:
+          command ::= directedORundirectedEdge attributedef_list * materialize_neighbors
+     (27) materialize_neighbors ::= *
+          materialize_neighbors ::= * MATERIALIZE NEIGHBORS
+
+                   MATERIALIZE shift  45
+         materialize_neighbors shift  109
+                     {default} reduce 27
+
+State 16:
+          command ::= LOAD nodesORedges STRING * localeORnolocale COLUMNS columndef_list INTO STRING ignore where fields from max mode
+          localeORnolocale ::= * LOCALE STRING
+     (43) localeORnolocale ::= *
+
+                        LOCALE shift  81
+              localeORnolocale shift  54
+                     {default} reduce 43
+
+State 17:
+          command ::= LOAD nodesORedges STRING localeORnolocale COLUMNS columndef_list INTO STRING * ignore where fields from max mode
+          ignore ::= * IGNORE ignorecols_list
+     (51) ignore ::= *
+
+                        IGNORE shift  25
+                        ignore shift  18
+                     {default} reduce 51
+
+State 18:
+          command ::= LOAD nodesORedges STRING localeORnolocale COLUMNS columndef_list INTO STRING ignore * where fields from max mode
+     (54) where ::= *
+          where ::= * WHERE TAIL STRING EQUAL STRING DOT STRING HEAD STRING EQUAL STRING DOT STRING
+
+                         WHERE shift  66
+                         where shift  19
+                     {default} reduce 54
+
+State 19:
+          command ::= LOAD nodesORedges STRING localeORnolocale COLUMNS columndef_list INTO STRING ignore where * fields from max mode
+          fields ::= * FIELDS TERMINATED STRING enclosed multiline
+     (57) fields ::= *
+
+                        FIELDS shift  61
+                        fields shift  20
+                     {default} reduce 57
+
+State 20:
+          command ::= LOAD nodesORedges STRING localeORnolocale COLUMNS columndef_list INTO STRING ignore where fields * from max mode
+     (63) from ::= *
+          from ::= * FROM NUMBER
+
+                          FROM shift  60
+                          from shift  21
+                     {default} reduce 63
+
+State 21:
+          command ::= LOAD nodesORedges STRING localeORnolocale COLUMNS columndef_list INTO STRING ignore where fields from * max mode
+     (65) max ::= *
+          max ::= * MAX NUMBER
+
+                           MAX shift  59
+                           max shift  22
+                     {default} reduce 65
+
+State 22:
+          command ::= LOAD nodesORedges STRING localeORnolocale COLUMNS columndef_list INTO STRING ignore where fields from max * mode
+     (67) mode ::= *
+          mode ::= * MODE ROWS
+          mode ::= * MODE COLUMNS
+          mode ::= * MODE COLUMNS SPLIT
+          mode ::= * MODE COLUMNS SPLIT PARTITIONS NUMBER
+
+                          MODE shift  29
+                          mode shift  115
+                     {default} reduce 67
+
+State 23:
+          fields ::= FIELDS TERMINATED STRING * enclosed multiline
+          enclosed ::= * ENCLOSED STRING
+     (59) enclosed ::= *
+
+                      ENCLOSED shift  65
+                      enclosed shift  24
+                     {default} reduce 59
+
+State 24:
+          fields ::= FIELDS TERMINATED STRING enclosed * multiline
+          multiline ::= * ALLOW MULTILINE NUMBER
+          multiline ::= * ALLOW MULTILINE
+     (62) multiline ::= *
+
+                         ALLOW shift  63
+                     multiline shift  120
+                     {default} reduce 62
+
+State 25:
+          ignore ::= IGNORE * ignorecols_list
+          ignorecols_list ::= * ignorecols_list COMMA STRING
+          ignorecols_list ::= * STRING
+
+                        STRING shift  125
+               ignorecols_list shift  78
+
+State 26:
+      (5) openORcreate ::= CREATE *
+          command ::= CREATE * NODE STRING attributedef_list
+          restrictedEdge ::= CREATE * EDGE STRING FROM
+          restrictedEdge ::= CREATE * DIRECTED EDGE STRING FROM
+          directedORundirectedEdge ::= CREATE * EDGE STRING
+          directedORundirectedEdge ::= CREATE * DIRECTED EDGE STRING
+          directedORundirectedEdge ::= CREATE * UNDIRECTED EDGE STRING
+
+                          NODE shift  34
+                          EDGE shift  35
+                      DIRECTED shift  37
+                    UNDIRECTED shift  40
+                     {default} reduce 5
+
+State 27:
+          attributedef_list ::= PAREN_OPEN attributedef_list_nopar * PAREN_CLOSE
+          attributedef_list_nopar ::= attributedef_list_nopar * COMMA attributedef
+
+                   PAREN_CLOSE shift  89
+                         COMMA shift  11
+
+State 28:
+          command ::= LOAD nodesORedges STRING localeORnolocale COLUMNS columndef_list * INTO STRING ignore where fields from max mode
+          columndef_list ::= columndef_list * COMMA columndef
+
+                          INTO shift  55
+                         COMMA shift  9
+
+State 29:
+          mode ::= MODE * ROWS
+          mode ::= MODE * COLUMNS
+          mode ::= MODE * COLUMNS SPLIT
+          mode ::= MODE * COLUMNS SPLIT PARTITIONS NUMBER
+
+                       COLUMNS shift  56
+                          ROWS shift  116
+
+State 30:
+          command ::= openORcreate * GDB STRING INTO STRING
+
+                           GDB shift  31
+
+State 31:
+          command ::= openORcreate GDB * STRING INTO STRING
+
+                        STRING shift  32
+
+State 32:
+          command ::= openORcreate GDB STRING * INTO STRING
+
+                          INTO shift  33
+
+State 33:
+          command ::= openORcreate GDB STRING INTO * STRING
+
+                        STRING shift  86
+
+State 34:
+          command ::= CREATE NODE * STRING attributedef_list
+
+                        STRING shift  10
+
+State 35:
+          restrictedEdge ::= CREATE EDGE * STRING FROM
+          directedORundirectedEdge ::= CREATE EDGE * STRING
+
+                        STRING shift  36
+
+State 36:
+          restrictedEdge ::= CREATE EDGE STRING * FROM
+     (31) directedORundirectedEdge ::= CREATE EDGE STRING *
+
+                          FROM shift  104
+                     {default} reduce 31
+
+State 37:
+          restrictedEdge ::= CREATE DIRECTED * EDGE STRING FROM
+          directedORundirectedEdge ::= CREATE DIRECTED * EDGE STRING
+
+                          EDGE shift  38
+
+State 38:
+          restrictedEdge ::= CREATE DIRECTED EDGE * STRING FROM
+          directedORundirectedEdge ::= CREATE DIRECTED EDGE * STRING
+
+                        STRING shift  39
+
+State 39:
+          restrictedEdge ::= CREATE DIRECTED EDGE STRING * FROM
+     (32) directedORundirectedEdge ::= CREATE DIRECTED EDGE STRING *
+
+                          FROM shift  105
+                     {default} reduce 32
+
+State 40:
+          directedORundirectedEdge ::= CREATE UNDIRECTED * EDGE STRING
+
+                          EDGE shift  41
+
+State 41:
+          directedORundirectedEdge ::= CREATE UNDIRECTED EDGE * STRING
+
+                        STRING shift  106
+
+State 42:
+          command ::= restrictedEdge * STRING TO STRING attributedef_list materialize_neighbors
+
+                        STRING shift  43
+
+State 43:
+          command ::= restrictedEdge STRING * TO STRING attributedef_list materialize_neighbors
+
+                            TO shift  44
+
+State 44:
+          command ::= restrictedEdge STRING TO * STRING attributedef_list materialize_neighbors
+
+                        STRING shift  12
+
+State 45:
+          materialize_neighbors ::= MATERIALIZE * NEIGHBORS
+
+                     NEIGHBORS shift  108
+
+State 46:
+          command ::= DROP nodeORedge * STRING
+
+                        STRING shift  110
+
+State 47:
+          command ::= DROP ATTRIBUTE * STRING DOT STRING
+
+                        STRING shift  48
+
+State 48:
+          command ::= DROP ATTRIBUTE STRING * DOT STRING
+
+                           DOT shift  49
+
+State 49:
+          command ::= DROP ATTRIBUTE STRING DOT * STRING
+
+                        STRING shift  113
+
+State 50:
+          command ::= INDEX * STRING DOT STRING index_kind
+
+                        STRING shift  51
+
+State 51:
+          command ::= INDEX STRING * DOT STRING index_kind
+
+                           DOT shift  52
+
+State 52:
+          command ::= INDEX STRING DOT * STRING index_kind
+
+                        STRING shift  7
+
+State 53:
+          command ::= LOAD nodesORedges * STRING localeORnolocale COLUMNS columndef_list INTO STRING ignore where fields from max mode
+
+                        STRING shift  16
+
+State 54:
+          command ::= LOAD nodesORedges STRING localeORnolocale * COLUMNS columndef_list INTO STRING ignore where fields from max mode
+
+                       COLUMNS shift  2
+
+State 55:
+          command ::= LOAD nodesORedges STRING localeORnolocale COLUMNS columndef_list INTO * STRING ignore where fields from max mode
+
+                        STRING shift  17
+
+State 56:
+     (69) mode ::= MODE COLUMNS *
+          mode ::= MODE COLUMNS * SPLIT
+          mode ::= MODE COLUMNS * SPLIT PARTITIONS NUMBER
+
+                         SPLIT shift  57
+                     {default} reduce 69
+
+State 57:
+     (70) mode ::= MODE COLUMNS SPLIT *
+          mode ::= MODE COLUMNS SPLIT * PARTITIONS NUMBER
+
+                    PARTITIONS shift  58
+                     {default} reduce 70
+
+State 58:
+          mode ::= MODE COLUMNS SPLIT PARTITIONS * NUMBER
+
+                        NUMBER shift  117
+
+State 59:
+          max ::= MAX * NUMBER
+
+                        NUMBER shift  118
+
+State 60:
+          from ::= FROM * NUMBER
+
+                        NUMBER shift  119
+
+State 61:
+          fields ::= FIELDS * TERMINATED STRING enclosed multiline
+
+                    TERMINATED shift  62
+
+State 62:
+          fields ::= FIELDS TERMINATED * STRING enclosed multiline
+
+                        STRING shift  23
+
+State 63:
+          multiline ::= ALLOW * MULTILINE NUMBER
+          multiline ::= ALLOW * MULTILINE
+
+                     MULTILINE shift  64
+
+State 64:
+          multiline ::= ALLOW MULTILINE * NUMBER
+     (61) multiline ::= ALLOW MULTILINE *
+
+                        NUMBER shift  121
+                     {default} reduce 61
+
+State 65:
+          enclosed ::= ENCLOSED * STRING
+
+                        STRING shift  122
+
+State 66:
+          where ::= WHERE * TAIL STRING EQUAL STRING DOT STRING HEAD STRING EQUAL STRING DOT STRING
+
+                          TAIL shift  67
+
+State 67:
+          where ::= WHERE TAIL * STRING EQUAL STRING DOT STRING HEAD STRING EQUAL STRING DOT STRING
+
+                        STRING shift  68
+
+State 68:
+          where ::= WHERE TAIL STRING * EQUAL STRING DOT STRING HEAD STRING EQUAL STRING DOT STRING
+
+                         EQUAL shift  69
+
+State 69:
+          where ::= WHERE TAIL STRING EQUAL * STRING DOT STRING HEAD STRING EQUAL STRING DOT STRING
+
+                        STRING shift  70
+
+State 70:
+          where ::= WHERE TAIL STRING EQUAL STRING * DOT STRING HEAD STRING EQUAL STRING DOT STRING
+
+                           DOT shift  71
+
+State 71:
+          where ::= WHERE TAIL STRING EQUAL STRING DOT * STRING HEAD STRING EQUAL STRING DOT STRING
+
+                        STRING shift  72
+
+State 72:
+          where ::= WHERE TAIL STRING EQUAL STRING DOT STRING * HEAD STRING EQUAL STRING DOT STRING
+
+                          HEAD shift  73
+
+State 73:
+          where ::= WHERE TAIL STRING EQUAL STRING DOT STRING HEAD * STRING EQUAL STRING DOT STRING
+
+                        STRING shift  74
+
+State 74:
+          where ::= WHERE TAIL STRING EQUAL STRING DOT STRING HEAD STRING * EQUAL STRING DOT STRING
+
+                         EQUAL shift  75
+
+State 75:
+          where ::= WHERE TAIL STRING EQUAL STRING DOT STRING HEAD STRING EQUAL * STRING DOT STRING
+
+                        STRING shift  76
+
+State 76:
+          where ::= WHERE TAIL STRING EQUAL STRING DOT STRING HEAD STRING EQUAL STRING * DOT STRING
+
+                           DOT shift  77
+
+State 77:
+          where ::= WHERE TAIL STRING EQUAL STRING DOT STRING HEAD STRING EQUAL STRING DOT * STRING
+
+                        STRING shift  123
+
+State 78:
+     (50) ignore ::= IGNORE ignorecols_list *
+          ignorecols_list ::= ignorecols_list * COMMA STRING
+
+                         COMMA shift  79
+                     {default} reduce 50
+
+State 79:
+          ignorecols_list ::= ignorecols_list COMMA * STRING
+
+                        STRING shift  124
+
+State 80:
+     (48) columndef ::= STRING *
+          columndef ::= STRING * STRING
+
+                        STRING shift  128
+                     {default} reduce 48
+
+State 81:
+          localeORnolocale ::= LOCALE * STRING
+
+                        STRING shift  130
+
+State 82:
+          command ::= SET * TIMESTAMP FORMAT STRING
+
+                     TIMESTAMP shift  83
+
+State 83:
+          command ::= SET TIMESTAMP * FORMAT STRING
+
+                        FORMAT shift  84
+
+State 84:
+          command ::= SET TIMESTAMP FORMAT * STRING
+
+                        STRING shift  133
+
+State 85:
+      (1) command_list ::= command_list command *
+
+                     {default} reduce 1
+
+State 86:
+      (3) command ::= openORcreate GDB STRING INTO STRING *
+
+                     {default} reduce 3
+
+State 87:
+      (4) openORcreate ::= OPEN *
+
+                     {default} reduce 4
+
+State 88:
+      (6) command ::= CREATE NODE STRING attributedef_list *
+
+                     {default} reduce 6
+
+State 89:
+      (8) attributedef_list ::= PAREN_OPEN attributedef_list_nopar PAREN_CLOSE *
+
+                     {default} reduce 8
+
+State 90:
+      (9) attributedef_list_nopar ::= attributedef_list_nopar COMMA attributedef *
+
+                     {default} reduce 9
+
+State 91:
+     (12) attributedef ::= STRING datatype index_kind *
+
+                     {default} reduce 12
+
+State 92:
+     (22) index_kind ::= BASIC *
+
+                     {default} reduce 22
+
+State 93:
+     (23) index_kind ::= INDEXED *
+
+                     {default} reduce 23
+
+State 94:
+     (24) index_kind ::= UNIQUE *
+
+                     {default} reduce 24
+
+State 95:
+     (13) datatype ::= BOOLEAN *
+
+                     {default} reduce 13
+
+State 96:
+     (14) datatype ::= INTEGER *
+
+                     {default} reduce 14
+
+State 97:
+     (15) datatype ::= LONG *
+
+                     {default} reduce 15
+
+State 98:
+     (16) datatype ::= DOUBLE *
+
+                     {default} reduce 16
+
+State 99:
+     (17) datatype ::= OID *
+
+                     {default} reduce 17
+
+State 100:
+     (18) datatype ::= TIMESTAMP *
+
+                     {default} reduce 18
+
+State 101:
+     (19) datatype ::= TEXT *
+
+                     {default} reduce 19
+
+State 102:
+     (20) datatype ::= STRING *
+
+                     {default} reduce 20
+
+State 103:
+     (10) attributedef_list_nopar ::= attributedef *
+
+                     {default} reduce 10
+
+State 104:
+     (29) restrictedEdge ::= CREATE EDGE STRING FROM *
+
+                     {default} reduce 29
+
+State 105:
+     (30) restrictedEdge ::= CREATE DIRECTED EDGE STRING FROM *
+
+                     {default} reduce 30
+
+State 106:
+     (33) directedORundirectedEdge ::= CREATE UNDIRECTED EDGE STRING *
+
+                     {default} reduce 33
+
+State 107:
+     (25) command ::= restrictedEdge STRING TO STRING attributedef_list materialize_neighbors *
+
+                     {default} reduce 25
+
+State 108:
+     (28) materialize_neighbors ::= MATERIALIZE NEIGHBORS *
+
+                     {default} reduce 28
+
+State 109:
+     (26) command ::= directedORundirectedEdge attributedef_list materialize_neighbors *
+
+                     {default} reduce 26
+
+State 110:
+     (34) command ::= DROP nodeORedge STRING *
+
+                     {default} reduce 34
+
+State 111:
+     (35) nodeORedge ::= NODE *
+
+                     {default} reduce 35
+
+State 112:
+     (36) nodeORedge ::= EDGE *
+
+                     {default} reduce 36
+
+State 113:
+     (37) command ::= DROP ATTRIBUTE STRING DOT STRING *
+
+                     {default} reduce 37
+
+State 114:
+     (38) command ::= INDEX STRING DOT STRING index_kind *
+
+                     {default} reduce 38
+
+State 115:
+     (39) command ::= LOAD nodesORedges STRING localeORnolocale COLUMNS columndef_list INTO STRING ignore where fields from max mode *
+
+                     {default} reduce 39
+
+State 116:
+     (68) mode ::= MODE ROWS *
+
+                     {default} reduce 68
+
+State 117:
+     (71) mode ::= MODE COLUMNS SPLIT PARTITIONS NUMBER *
+
+                     {default} reduce 71
+
+State 118:
+     (66) max ::= MAX NUMBER *
+
+                     {default} reduce 66
+
+State 119:
+     (64) from ::= FROM NUMBER *
+
+                     {default} reduce 64
+
+State 120:
+     (56) fields ::= FIELDS TERMINATED STRING enclosed multiline *
+
+                     {default} reduce 56
+
+State 121:
+     (60) multiline ::= ALLOW MULTILINE NUMBER *
+
+                     {default} reduce 60
+
+State 122:
+     (58) enclosed ::= ENCLOSED STRING *
+
+                     {default} reduce 58
+
+State 123:
+     (55) where ::= WHERE TAIL STRING EQUAL STRING DOT STRING HEAD STRING EQUAL STRING DOT STRING *
+
+                     {default} reduce 55
+
+State 124:
+     (52) ignorecols_list ::= ignorecols_list COMMA STRING *
+
+                     {default} reduce 52
+
+State 125:
+     (53) ignorecols_list ::= STRING *
+
+                     {default} reduce 53
+
+State 126:
+     (44) columndef_list ::= columndef_list COMMA columndef *
+
+                     {default} reduce 44
+
+State 127:
+     (47) columndef ::= ASTERISK *
+
+                     {default} reduce 47
+
+State 128:
+     (49) columndef ::= STRING STRING *
+
+                     {default} reduce 49
+
+State 129:
+     (46) columndef_list ::= columndef *
+
+                     {default} reduce 46
+
+State 130:
+     (42) localeORnolocale ::= LOCALE STRING *
+
+                     {default} reduce 42
+
+State 131:
+     (40) nodesORedges ::= NODES *
+
+                     {default} reduce 40
+
+State 132:
+     (41) nodesORedges ::= EDGES *
+
+                     {default} reduce 41
+
+State 133:
+     (72) command ::= SET TIMESTAMP FORMAT STRING *
+
+                     {default} reduce 72
+
+----------------------------------------------------
+Symbols:
+    0: $:
+    1: GDB
+    2: STRING
+    3: INTO
+    4: OPEN
+    5: CREATE
+    6: NODE
+    7: PAREN_OPEN
+    8: PAREN_CLOSE
+    9: COMMA
+   10: BOOLEAN
+   11: INTEGER
+   12: LONG
+   13: DOUBLE
+   14: OID
+   15: TIMESTAMP
+   16: TEXT
+   17: BASIC
+   18: INDEXED
+   19: UNIQUE
+   20: TO
+   21: MATERIALIZE
+   22: NEIGHBORS
+   23: EDGE
+   24: FROM
+   25: DIRECTED
+   26: UNDIRECTED
+   27: DROP
+   28: ATTRIBUTE
+   29: DOT
+   30: INDEX
+   31: LOAD
+   32: COLUMNS
+   33: NODES
+   34: EDGES
+   35: LOCALE
+   36: ASTERISK
+   37: IGNORE
+   38: WHERE
+   39: TAIL
+   40: EQUAL
+   41: HEAD
+   42: FIELDS
+   43: TERMINATED
+   44: ENCLOSED
+   45: ALLOW
+   46: MULTILINE
+   47: NUMBER
+   48: MAX
+   49: MODE
+   50: ROWS
+   51: SPLIT
+   52: PARTITIONS
+   53: SET
+   54: FORMAT
+   55: error:
+   56: openORcreate: OPEN CREATE
+   57: nodeORedge: NODE EDGE
+   58: nodesORedges: NODES EDGES
+   59: attributedef: STRING
+   60: datatype: STRING BOOLEAN INTEGER LONG DOUBLE OID TIMESTAMP TEXT
+   61: index_kind: <lambda> BASIC INDEXED UNIQUE
+   62: attributedef_list: <lambda> PAREN_OPEN
+   63: attributedef_list_nopar: <lambda> STRING COMMA
+   64: directedORundirectedEdge: CREATE
+   65: restrictedEdge: CREATE
+   66: materialize_neighbors: <lambda> MATERIALIZE
+   67: from: <lambda> FROM
+   68: max: <lambda> MAX
+   69: columndef_list: <lambda> STRING COMMA ASTERISK
+   70: columndef: STRING ASTERISK
+   71: ignore: <lambda> IGNORE
+   72: ignorecols_list: STRING
+   73: where: <lambda> WHERE
+   74: fields: <lambda> FIELDS
+   75: enclosed: <lambda> ENCLOSED
+   76: multiline: <lambda> ALLOW
+   77: mode: <lambda> MODE
+   78: localeORnolocale: <lambda> LOCALE
+   79: main: OPEN CREATE DROP INDEX LOAD SET
+   80: command_list: <lambda> OPEN CREATE DROP INDEX LOAD SET
+   81: command: OPEN CREATE DROP INDEX LOAD SET
