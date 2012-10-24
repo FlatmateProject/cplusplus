@@ -13,24 +13,38 @@
 #include <string>
 #include <exception>
 #include <map>
-
+#include <iostream>
 
 
 using namespace rapidxml;
 using namespace std;
+
+class xmlException: public exception {
+
+private:
+	string message;
+public:
+	xmlException()throw();
+	~xmlException()throw();
+	xmlException setMessage(const char * message) throw();
+	virtual const char* what() const throw ();
+};
 
 class xmlFasade {
 public:
 	xmlFasade();
 	virtual ~xmlFasade();
 
-	void validFile(const char * path);
+	void parseFile(const char * path);
 	map<string, string> getCompilersAndLinker();
 	map<string, string> getFlags();
 	map<string, string> getCompilerFlagRelation();
 private:
 	xml_document<> dom;
 	xml_node<> * root;
+	fstream * openFile(const char* path);
+	char* copyFileContent(fstream& file);
+	size_t getFileSize(fstream& file);
 };
 
 

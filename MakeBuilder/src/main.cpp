@@ -22,20 +22,24 @@ int openFile(char * filePath){
 
 int main(int argc, char* argv[]) {
 
-	XMLfasade xmlReader;
+	xmlFasade xmlReader;
+	try {
+		xmlReader.parseFile("D:/eclipse_cpp/workspace/MakeBuilder/xml/xmlFile.xml");
 
-	xmlReader.readFile("D:/eclipse_cpp/workspace/MakeBuilder/xml/xmlFile.xml");
+	} catch (exception& e) {
+		cout << e.what() << endl;
+	}
+
 	/*FilesFinder finder;
 
-	finder.findFilesInPath("h",".");
-	finder.printListOfFile();
+	 finder.findFilesInPath("h",".");
+	 finder.printListOfFile();
 
-	char * basefile;
-	char * extendfile;
+	 char * basefile;
+	 char * extendfile;
 
-	if (argc != 2){
-		cout<<" Wrong number of arguments"<<endl;
-	}*/
-
+	 if (argc != 2){
+	 cout<<" Wrong number of arguments"<<endl;
+	 }*/
 
 }
