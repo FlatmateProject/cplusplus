@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
 	xmlFasade xmlReader;
 	try {
 		xmlReader.parseFile("D:/eclipse_cpp/workspace/MakeBuilder/xml/xmlFile.xml");
-
+		xmlReader.getCompilers();
 	} catch (exception& e) {
 		cout << e.what() << endl;
 	}

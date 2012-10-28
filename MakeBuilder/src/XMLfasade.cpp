@@ -39,24 +39,23 @@ xmlFasade::~xmlFasade() {
 
 
 
-size_t xmlFasade::getFileSize(fstream& file) {
-	file.seekg(0, ios::end);
-	size_t length = file.tellg();
-	file.seekg(0, ios::beg);
+size_t xmlFasade::getFileSize(fstream* file) {
+	file->seekg(0, ios::end);
+	size_t length = file->tellg();
+	file->seekg(0, ios::beg);
 	return length;
 }
 
-char* xmlFasade::copyFileContent(fstream& file) {
+char* xmlFasade::copyFileContent(fstream* file) {
 	size_t length = getFileSize(file);
-
 	char* buffer = new char[length + 1];
-	file.read(&buffer[0], length);
+	file->read(&buffer[0], length);
 	buffer[length] = '\0';
 	return buffer;
 }
 
 fstream * xmlFasade::openFile(const char* path) {
-	fstream * file =new fstream(path,fstream::out | fstream::binary);
+	fstream * file =new fstream(path, fstream::in | fstream::binary);
 	if (file->fail()) {
 		xmlException exception;
 		throw exception.setMessage("File not found");
@@ -64,10 +63,19 @@ fstream * xmlFasade::openFile(const char* path) {
 	return file;
 }
 
+map<string, string> xmlFasade::getCompilers(){
+	map<string, string> A;
+	cout << this->dom << endl;
+	return A;
+}
+
 void xmlFasade::parseFile(const char * path) {
 	fstream * file = openFile(path);
-	char * buffer = copyFileContent(*file);
+	char * buffer = copyFileContent(file);
 	file->close();
+	if (file->fail()) {
+		cout << "close failed\n";
+	}
 	dom.parse<0>(&buffer[0]);
 	delete file;
 }

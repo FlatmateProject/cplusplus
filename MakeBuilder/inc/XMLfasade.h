@@ -9,6 +9,7 @@
 #define XMLFASADE_H_
 
 #include <rapidxml.hpp>
+#include <rapidxml_print.hpp>
 #include <fstream>
 #include <string>
 #include <exception>
@@ -36,15 +37,16 @@ public:
 	virtual ~xmlFasade();
 
 	void parseFile(const char * path);
-	map<string, string> getCompilersAndLinker();
+	map<string, string> getCompilers();
+	map<string, string> getLinker();
 	map<string, string> getFlags();
 	map<string, string> getCompilerFlagRelation();
 private:
 	xml_document<> dom;
 	xml_node<> * root;
 	fstream * openFile(const char* path);
-	char* copyFileContent(fstream& file);
-	size_t getFileSize(fstream& file);
+	char* copyFileContent(fstream* file);
+	size_t getFileSize(fstream* file);
 };
 
 
