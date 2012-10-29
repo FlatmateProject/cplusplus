@@ -15,16 +15,18 @@ using namespace std;
 #include <dirent.h>
 #include <iostream>
 
-
-
 class FilesFinder {
+
+#ifdef TEST_BUILD
+	friend class FilesFinderTest;
+#endif
+
 private:
 	vector<string> listOfFiles;
 
 	string findExtension(string match);
 	std::string createFullPath(string path, char* fileName);
 	bool isNotRootOrParentDir(string fileName);
-
 
 public:
 	FilesFinder();
@@ -34,8 +36,6 @@ public:
 	void printListOfFile();
 	vector<string>::const_iterator getBeginItr();
 	vector<string>::const_iterator getEndItr();
-	int getNumberOfElement();
 };
-
 
 #endif /* FILESFINDER_H_ */

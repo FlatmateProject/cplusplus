@@ -35,7 +35,7 @@ TEST_F(FileFinderTest, isNotNull){
 
 TEST_F(FileFinderTest, CheckNumberOfFiles){
 	findFiles();
-	EXPECT_EQ(4,finder->getNumberOfElement())<<"Number of elements is not correct";
+	EXPECT_EQ(4,finder->listOfFiles.size())<<"Number of elements is not correct";
 }
 
 

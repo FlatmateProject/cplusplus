@@ -68,7 +68,3 @@ vector<string>::const_iterator FilesFinder::getBeginItr(){
 vector<string>::const_iterator FilesFinder::getEndItr(){
 	return listOfFiles.end();
 }
-
-int FilesFinder::getNumberOfElement(){
-	return listOfFiles.size();
-}

@@ -16,7 +16,6 @@
 #include <map>
 #include <iostream>
 
-
 using namespace rapidxml;
 using namespace std;
 
@@ -25,16 +24,22 @@ class xmlException: public exception {
 private:
 	string message;
 public:
-	xmlException()throw();
-	~xmlException()throw();
-	xmlException setMessage(const char * message) throw();
+	xmlException() throw ();
+	~xmlException() throw ();
+	xmlException setMessage(const char * message) throw ();
 	virtual const char* what() const throw ();
+	void throwIf(bool condition, const char * message);
 };
 
-class xmlFasade {
+class XmlFasade {
+
+#ifdef TEST_BUILD
+	friend class XmlFasadeTest;
+#endif
+
 public:
-	xmlFasade();
-	virtual ~xmlFasade();
+	XmlFasade();
+	virtual ~XmlFasade();
 
 	void parseFile(const char * path);
 	map<string, string> getCompilers();
@@ -48,6 +53,5 @@ private:
 	char* copyFileContent(fstream* file);
 	size_t getFileSize(fstream* file);
 };
-
 
 #endif /* XMLFASADE_H_ */

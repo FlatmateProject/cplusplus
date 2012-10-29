@@ -22,13 +22,15 @@ int openFile(char * filePath){
 
 int main(int argc, char* argv[]) {
 
-	xmlFasade xmlReader;
+	XmlFasade xmlReader;
 	try {
 		xmlReader.parseFile("D:/eclipse_cpp/workspace/MakeBuilder/xml/xmlFile.xml");
 		xmlReader.getCompilers();
 	} catch (exception& e) {
-		cout << e.what() << endl;
+		cerr << e.what() << endl;
 	}
+	cout << "finito" << endl;
+
 
 	/*FilesFinder finder;
 
