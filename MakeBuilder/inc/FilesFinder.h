@@ -18,7 +18,7 @@ using namespace std;
 class FilesFinder {
 
 #ifdef TEST_BUILD
-	friend class FilesFinderTest;
+	friend class FileFinderTest;
 #endif
 
 private:

@@ -22,7 +22,9 @@ protected:
 		finder->findFilesInPath("h","D:/eclipse_cpp/workspace/MakeBuilder/Test/testFiles");
 	}
 
-
+	void compareSizeOfList(){
+		EXPECT_EQ(4,finder->listOfFiles.size())<<"Number of elements is not correct";
+	}
 };
 
 TEST_F(FileFinderTest, hello){
@@ -35,7 +37,7 @@ TEST_F(FileFinderTest, isNotNull){
 
 TEST_F(FileFinderTest, CheckNumberOfFiles){
 	findFiles();
-	EXPECT_EQ(4,finder->listOfFiles.size())<<"Number of elements is not correct";
+	compareSizeOfList();
 }
 
 

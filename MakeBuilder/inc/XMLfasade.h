@@ -32,23 +32,21 @@ public:
 };
 
 class XmlFasade {
-
-#ifdef TEST_BUILD
 	friend class XmlFasadeTest;
-#endif
 
 public:
 	XmlFasade();
 	virtual ~XmlFasade();
-
-	void parseFile(const char * path);
+	void parseFile(const char* path);
 	map<string, string> getCompilers();
 	map<string, string> getLinker();
 	map<string, string> getFlags();
 	map<string, string> getCompilerFlagRelation();
+
 private:
 	xml_document<> dom;
-	xml_node<> * root;
+	xml_node<>* root;
+	void checkFileFlags(fstream* file, string message);
 	fstream * openFile(const char* path);
 	char* copyFileContent(fstream* file);
 	size_t getFileSize(fstream* file);
