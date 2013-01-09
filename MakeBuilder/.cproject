@@ -157,6 +157,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MakeBuilder/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\eclipse_cpp\gtest-1.6.0\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\eclipse_cpp\rapidxml-1.13&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MakeBuilder/inc/test}&quot;"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.1970711503" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
 							</tool>
@@ -168,6 +169,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MakeBuilder/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\eclipse_cpp\gtest-1.6.0\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\eclipse_cpp\rapidxml-1.13&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MakeBuilder/inc/test}&quot;"/>
 								</option>
 								<option id="gnu.cpp.compiler.option.other.other.2084128139" name="Other flags" superClass="gnu.cpp.compiler.option.other.other" value="-c -fmessage-length=0" valueType="string"/>
 								<option id="gnu.cpp.compiler.option.preprocessor.def.1938152351" name="Defined symbols (-D)" superClass="gnu.cpp.compiler.option.preprocessor.def" valueType="definedSymbols">
@@ -182,6 +184,7 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MakeBuilder/inc}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\eclipse_cpp\gtest-1.6.0\include&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;D:\eclipse_cpp\rapidxml-1.13&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/MakeBuilder/inc/test}&quot;"/>
 								</option>
 								<option id="gnu.c.compiler.option.preprocessor.def.symbols.1185356898" name="Defined symbols (-D)" superClass="gnu.c.compiler.option.preprocessor.def.symbols" valueType="definedSymbols">
 									<listOptionValue builtIn="false" value="TEST_BUILD"/>

@@ -6,12 +6,14 @@
  */
 #include "gtest/gtest.h"
 #include "XMLfasade.h"
-
+#include <TestSlave.h>
+#include <TestResource.h>
 
 class XmlFasadeTest: public testing::Test {
 protected:
 
 	XmlFasade* testObject;
+	TestSlave* testSlave;
 
 	XmlFasadeTest() {
 
@@ -19,6 +21,7 @@ protected:
 
 	virtual void SetUp() {
 		testObject = new XmlFasade();
+		testSlave = new TestSlave();
 	}
 
 	virtual void TearDown() {
@@ -48,24 +51,8 @@ protected:
 		}
 	}
 
-	fstream * createFile(string path, string pattern){
-		fstream * file =new fstream(path.c_str(),fstream::out | fstream::binary );
-		EXPECT_FALSE(file->fail())<< "Couldn't create the file";
-		file->write(pattern.c_str(), pattern.size());
-		EXPECT_FALSE(file->fail())<< "Couldn't write to file ";
-		file->close();
-
-		delete file;
-
-		file =new fstream(path.c_str(), fstream::in | fstream::binary );
-
-		return file;
-	}
-
-
-
 	void readFileTest(string path, string pattern){
-		fstream * file = createFile(path,pattern);
+		fstream * file = testSlave->createFile(path,pattern);
 		char * actual = NULL;
 
 		try {
@@ -78,21 +65,52 @@ protected:
 
 		delete actual;
 
-		deleteFile(file, path);
-	}
-
-	void deleteFile(fstream * file, string path) {
-		file->close();
-		ASSERT_FALSE(file->fail())<<"Couldn't close the file";
-		delete file;
-
-		if (remove(path.c_str())){
-				cout << "Error during deleting file "<<path<<endl;
-		}
+		testSlave->deleteFile();
 	}
 
 	void readFileNegativeTest() {
 		EXPECT_THROW(testObject->copyFileContent(NULL),xmlException)<<"NULL pointer accepted\n";
+	}
+
+	void getFileSizeTest(string path, string pattern) {
+		fstream * file = testSlave->createFile(path,pattern);
+		unsigned int actual = 0;
+
+		actual = testObject->getFileSize(file);
+
+		EXPECT_EQ(pattern.size(),actual)<<"File size mismatch";
+
+		testSlave->deleteFile();
+	}
+
+	void getFileSizeTestNegative() {
+		EXPECT_THROW(testObject->getFileSize(NULL),xmlException)<<"NULL pointer was accepted, exception should occur\n";
+	}
+
+	void getCompilersTest(){
+		map<string, string> expected, actual;
+		expected["CC"]= "gcc";
+		expected["CXX"]= "g++";
+		string path = "testFile.xml";
+
+		testSlave->createFile(path.c_str(),TestResource::xmlFileContent);
+
+		try{
+			testObject->parseFile(path.c_str());
+			actual = testObject->getCompilers();
+		}catch(exception &e){
+			EXPECT_FALSE(true) << e.what();
+		}
+
+		EXPECT_EQ(expected.size(),actual.size())<<"Number of compilers is not equal";
+
+		map<string, string>::iterator it_expected = expected.begin();
+		map<string, string>::iterator it_actual = actual.begin();
+		for (unsigned int i = 0 ; i < expected.size();i++){
+			EXPECT_STREQ((*it_expected).first.c_str(),(*it_actual).first.c_str()) << "Type of compiler is different than expected";
+			it_expected++;
+			it_actual++;
+		}
 	}
 };
 
@@ -101,7 +119,9 @@ TEST_F(XmlFasadeTest, hello){
 }
 
 TEST_F(XmlFasadeTest, openFilePositive){
-	openFileTest("D:/eclipse_cpp/workspace/MakeBuilder/xml/xmlFile.xml",true);
+	string path = "xmlFile.xml";
+	testSlave->createFile(path);
+	openFileTest(path.c_str(),true);
 }
 
 TEST_F(XmlFasadeTest, openFileNegative){
@@ -119,6 +139,14 @@ TEST_F(XmlFasadeTest, copyFileConNegative){
 	readFileNegativeTest();
 }
 
+TEST_F(XmlFasadeTest, getFileSize){
+	getFileSizeTest("testFile.txt","12345\n67890");
+}
 
+TEST_F(XmlFasadeTest, getFileSizeNegative){
+	getFileSizeTestNegative();
+}
 
-
+TEST_F(XmlFasadeTest, getCompilersTest){
+	getCompilersTest();
+}

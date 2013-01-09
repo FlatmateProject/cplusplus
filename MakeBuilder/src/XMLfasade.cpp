@@ -34,12 +34,11 @@ void xmlException::throwIf(bool condition, const char * message){
 
 
 XmlFasade::XmlFasade() {
-	// TODO Auto-generated constructor stub
 
 }
 
 XmlFasade::~XmlFasade() {
-	// TODO Auto-generated destructor stub
+
 }
 
 void XmlFasade::checkFileFlags(fstream* file, string message) {
@@ -56,6 +55,10 @@ void XmlFasade::checkFileFlags(fstream* file, string message) {
 
 
 size_t XmlFasade::getFileSize(fstream* file) {
+	if (file == NULL) {
+		xmlException exception;
+		throw exception.setMessage("NULL pointer of file descriptor");
+	}
 	file->seekg(0, ios::end);
 	size_t length = file->tellg();
 	file->seekg(0, ios::beg);
