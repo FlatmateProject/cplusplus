@@ -7,7 +7,7 @@ protected:
 	FilesFinder* finder;
 
 	FileFinderTest(){
-
+		finder= NULL;
 	}
 
 	virtual void SetUp() {
@@ -23,7 +23,7 @@ protected:
 	}
 
 	void compareSizeOfList(){
-		EXPECT_EQ(4,finder->listOfFiles.size())<<"Number of elements is not correct";
+		EXPECT_EQ((unsigned int)4,finder->listOfFiles.size())<<"Number of elements is not correct";
 	}
 };
 

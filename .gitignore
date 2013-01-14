@@ -1,0 +1,5 @@
+/.metadata
+/.git
+gtest-1.6.0/*
+!gtest-1.6.0/lib
+!gtest-1.6.0/include
