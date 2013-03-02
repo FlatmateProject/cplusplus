@@ -34,7 +34,7 @@ void xmlException::throwIf(bool condition, const char * message){
 
 
 XmlFasade::XmlFasade() {
-
+	root = NULL;
 }
 
 XmlFasade::~XmlFasade() {

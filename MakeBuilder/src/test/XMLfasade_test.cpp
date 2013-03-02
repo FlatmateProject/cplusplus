@@ -16,7 +16,8 @@ protected:
 	TestSlave* testSlave;
 
 	XmlFasadeTest() {
-
+		testObject = NULL;
+		testSlave  = NULL;
 	}
 
 	virtual void SetUp() {
@@ -28,44 +29,54 @@ protected:
 		delete testObject;
 	}
 
-	void openFileTest(const char* path, bool positiveTest){
+	void openFileTestPositive(string path) {
 		bool faultOccur = false;
 		fstream* file = NULL;
 
-		try{
-			file = testObject->openFile(path);
-		}catch(exception &e){
+		testSlave->createFile(path);
+
+		try {
+			file = testObject->openFile(path.c_str());
+		} catch (exception &e) {
 			faultOccur = true;
 		}
 
-		if (positiveTest){
-			EXPECT_FALSE(faultOccur) << "Exception occur";
-			EXPECT_TRUE(file != NULL) << "Wrong value returned";
-			EXPECT_FALSE(file->fail() != faultOccur) << "File faulty opened (mismatch of statement)";
+		EXPECT_FALSE(faultOccur) << "Exception occur";
+		EXPECT_TRUE(file != NULL) << "Wrong value returned";
+		EXPECT_FALSE(file->fail() != faultOccur) << "File faulty opened (mismatch of statement)";
 
-			file->close();
-			delete file;
-		}else{
-			EXPECT_TRUE(faultOccur) << "Exception expected";
-			EXPECT_TRUE(file == NULL) << "File faulty opened (mismatch of statement)";
-		}
+		testSlave->deleteFile(path);
 	}
 
-	void readFileTest(string path, string pattern){
-		fstream * file = testSlave->createFile(path,pattern);
+	void openFileTestNegative(string path) {
+		bool faultOccur = false;
+		fstream* file = NULL;
+
+		try {
+			file = testObject->openFile(path.c_str());
+		} catch (exception &e) {
+			faultOccur = true;
+		}
+
+		EXPECT_TRUE(faultOccur) << "Exception expected";
+		EXPECT_TRUE(file == NULL) << "File faulty opened (mismatch of statement)";
+	}
+
+	void readFileTest(string path, string pattern) {
+		fstream * file = testSlave->createFile(path, pattern);
 		char * actual = NULL;
 
 		try {
 			actual = testObject->copyFileContent(file);
 		} catch (exception &e) {
-			cout << e.what()<<endl;
+			cout << e.what() << endl;
 		}
 		EXPECT_TRUE(NULL != actual) << "actual == NULL";
-		EXPECT_STREQ(pattern.c_str(),actual) << "String not equal";
+		EXPECT_STREQ(pattern.c_str(),actual) << "Strings not equal";
 
 		delete actual;
 
-		testSlave->deleteFile();
+		testSlave->deleteFile(path);
 	}
 
 	void readFileNegativeTest() {
@@ -77,10 +88,9 @@ protected:
 		unsigned int actual = 0;
 
 		actual = testObject->getFileSize(file);
-
 		EXPECT_EQ(pattern.size(),actual)<<"File size mismatch";
 
-		testSlave->deleteFile();
+		testSlave->deleteFile(path);
 	}
 
 	void getFileSizeTestNegative() {
@@ -118,29 +128,40 @@ TEST_F(XmlFasadeTest, hello){
 	EXPECT_TRUE(true);
 }
 
-TEST_F(XmlFasadeTest, openFilePositive){
+TEST_F(XmlFasadeTest, openFilePositive) {
 	string path = "xmlFile.xml";
-	testSlave->createFile(path);
-	openFileTest(path.c_str(),true);
+	try {
+		openFileTestPositive(path.c_str());
+	} catch (exception &e) {
+		cout << e.what() << endl;
+	}
 }
 
 TEST_F(XmlFasadeTest, openFileNegative){
-	openFileTest("xxx",false);
+	openFileTestNegative("xxx");
 }
 
-TEST_F(XmlFasadeTest, copyFileContext){
+TEST_F(XmlFasadeTest, copyFileContext) {
 	string pattern("<root> <test> pattern </test></root>");
 	string path("testFile.txt");
 
-	readFileTest(path,pattern);
+	try {
+		readFileTest(path, pattern);
+	} catch (exception &e) {
+		cout << e.what() << endl;
+	}
 }
 
 TEST_F(XmlFasadeTest, copyFileConNegative){
 	readFileNegativeTest();
 }
 
-TEST_F(XmlFasadeTest, getFileSize){
-	getFileSizeTest("testFile.txt","12345\n67890");
+TEST_F(XmlFasadeTest, getFileSize) {
+	try {
+		getFileSizeTest("testFile.txt", "12345\n67890");
+	} catch (exception &e) {
+		cout << e.what() << endl;
+	}
 }
 
 TEST_F(XmlFasadeTest, getFileSizeNegative){
