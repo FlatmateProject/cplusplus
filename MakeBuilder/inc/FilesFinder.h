@@ -17,17 +17,6 @@ using namespace std;
 
 class FilesFinder {
 
-#ifdef TEST_BUILD
-	friend class FileFinderTest;
-#endif
-
-private:
-	vector<string> listOfFiles;
-
-	string findExtension(string match);
-	std::string createFullPath(string path, char* fileName);
-	bool isNotRootOrParentDir(string fileName);
-
 public:
 	FilesFinder();
 	virtual ~FilesFinder();
@@ -36,6 +25,15 @@ public:
 	void printListOfFile();
 	vector<string>::const_iterator getBeginItr();
 	vector<string>::const_iterator getEndItr();
+
+#ifndef TEST_BUILD
+	private:
+#endif
+	vector<string> listOfFiles;
+
+	string findExtension(string match);
+	std::string createFullPath(string path, char* fileName);
+	bool isNotRootOrParentDir(string fileName);
 };
 
 #endif /* FILESFINDER_H_ */

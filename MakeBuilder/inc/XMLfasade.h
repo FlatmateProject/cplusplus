@@ -32,7 +32,6 @@ public:
 };
 
 class XmlFasade {
-	friend class XmlFasadeTest;
 
 public:
 	XmlFasade();
@@ -43,7 +42,9 @@ public:
 	map<string, string> getFlags();
 	map<string, string> getCompilerFlagRelation();
 
-private:
+#ifndef TEST_BUILD
+	private:
+#endif
 	xml_document<> dom;
 	xml_node<>* root;
 	void checkFileFlags(fstream* file, string message);
